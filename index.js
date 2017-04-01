@@ -3,7 +3,7 @@ const Discord = require('discord.js'),
 		token = require('../config')
 let	queue = [],
 		vc = null,
-		pf = 'q!',
+		pf = 'y!',
 		singing = false
 
 cutie.on('ready', () => {
@@ -65,15 +65,15 @@ cutie.on('message', (message) => {
 			if(cRoles(message))
 				nQueue(message)		//call done function
 			else return
-		//manage command
-		else if(rest.startsWith('manage'))
+		//manage command*/
+		} else if(rest.startsWith('manage'))
 			//if has managing perms
 			if(cRoles(message)) {
 				vc = message.member.voiceChannel
 				message.reply(`started managing \`${vc.name}\``)
-			} else return*/
+			} else return
 		//skip command
-		} else if(rest.startsWith('skip'))
+		else if(rest.startsWith('skip'))
 			//if has managing perms
 			if(cRoles) {
 				let pams = rest.substring(4)
