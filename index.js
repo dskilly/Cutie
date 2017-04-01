@@ -13,12 +13,7 @@ cutie.on('ready', () => {
 })
 
 cutie.on('message', (message) => {
-	let rest = message.content,
-			t = null
-	if(message.content.startsWith('~~') && message.author.id == config.dskilly) {
-		rest = rest.substring(2)
-		t = message.createdTimestamp
-	}
+	let rest = message.content
 	//if message starts with prefix and sent through a guild server
 	if(rest.startsWith(pf) && message.channel.type === 'text') {
 		rest = rest.substring(pf.length).trim()
@@ -29,9 +24,9 @@ cutie.on('message', (message) => {
 				**help** - What are you even doing...\n`
 			//if managing role
 			if(cRoles(message))
-				cmds += `**skip [index]** - To skip the specified position\n\
-					**start** - To let the singer start\n\
-					**done** - After the singer is done to unmute all\n`
+				cmds += `**skip [index]** - To skip the specified position\n`
+					//**start** - To let the singer start\n\
+					//**done** - After the singer is done to unmute all\n`
 			else
 				cmds += `**skip** - To skip your turn if queued`
 			message.channel.sendMessage({embed: {
@@ -59,7 +54,7 @@ cutie.on('message', (message) => {
 			} else 
 				message.reply('there\'s no queue right now, sorry :cry:')
 		//start command
-		} else if(rest.startsWith('start'))
+		/*} else if(rest.startsWith('start'))
 			//if has managing perms
 			if(cRoles(message))
 				sQueue(message)		//call start function
@@ -76,7 +71,7 @@ cutie.on('message', (message) => {
 			if(cRoles(message)) {
 				vc = message.member.voiceChannel
 				message.reply(`started managing \`${vc.name}\``)
-			} else return
+			} else return*/
 		//skip command
 		else if(rest.startsWith('skip'))
 			//if has managing perms
@@ -84,46 +79,11 @@ cutie.on('message', (message) => {
 				let pams = rest.substring(4)
 				uQueue(message, pams)		//call skip function
 			} else return
-	} else if(message.author.id === config.dskilly && rest.startsWith('?eval')) {
-		rest = rest.substring(5)
-		let kk = eval(rest.substring(1))
-		if(typeof kk != 'object')
-			if(rest.startsWith('@'))
-				return
-			else if(rest.startsWith('#'))
-				message.channel.sendMessage(kk)
-			else
-				message.channel.sendCode('js', kk)
-		message.delete()
-	} else if(message.author.id === config.dskilly && rest.startsWith('?clr')) {
-		let pams = parseInt(rest.substring(4))
-		if(isNaN(pams))
-			pams = 2
-		if(pams > 0)
-			message.channel.fetchMessages({limit: 100}).then((m) => {
-				let x = 0
-				for(let i of m) {
-					if(i[1].author.id === config.dskilly) {
-						i[1].delete();
-						x++
-					}
-					if(x >= pams)
-						break
-				}
-			})
-			if(t) {
-				setImmediate((message, t) => {
-					message.channel.sendMessage(`\`${(new Date()) - t}ms\``)
-				}, message, t)
-				t = null
-			}
 	}
-	if(t)
-		message.channel.sendMessage(`\`${(new Date()) - t}ms\``)
 })
 
 //voice state update, if user leaves or joins vc
-cutie.on('voiceStateUpdate', (o, n) => {
+/*cutie.on('voiceStateUpdate', (o, n) => {
 	//if singing and member is not singer
 	if(singing && n.id != queue[0].id)
 		//if joining voice channel and voice channel is kaoke
@@ -135,7 +95,7 @@ cutie.on('voiceStateUpdate', (o, n) => {
 			if(n.voiceChannel ? n.voiceChannel.id != vc.id : true)
 				//if(n.roles.exists('name', 'Member Perms'))
 				n.setMute(false)
-})
+})*/
 
 
 /*
@@ -211,7 +171,7 @@ function uQueue(m, pams) {
 
 //checks for managing roles
 function cRoles(m) {
-	return m.member.roles.some(x => x.name === 'Moderator' || x.hasPermission('ADMINISTRATOR'))
+	return m.member.roles.some(x => x.name === 'Moderator' || x.hasPermission('ADMINISTRATOR') || x.id === '297591992957927424')
 }
 
 /*	V1.2.1
