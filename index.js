@@ -73,7 +73,7 @@ cutie.on('message', (message) => {
 				message.reply(`started managing \`${vc.name}\``)
 			} else return*/
 		//skip command
-		else if(rest.startsWith('skip'))
+		} else if(rest.startsWith('skip'))
 			//if has managing perms
 			if(cRoles) {
 				let pams = rest.substring(4)
