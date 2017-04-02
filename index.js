@@ -1,6 +1,6 @@
 const Discord = require('discord.js'),
 		cutie = new Discord.Client(),
-		token = require('../config')
+		token = require('./config')
 let	queue = [],
 		vc = null,
 		pf = 'y!',
